@@ -1,0 +1,66 @@
+<!--
+  Generated template for the NewsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>COIN OTAKU</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+      <ion-segment [(ngModel)]="categories" color="secondary" (ionChange)="filterCategory()">
+        <ion-segment-button value="0" >
+            業界ニュース
+        </ion-segment-button>
+        <ion-segment-button value="2" >
+          Bitcoin
+        </ion-segment-button>
+        <ion-segment-button value="5" >
+          Ethereum
+        </ion-segment-button>
+        <ion-segment-button value="52" >
+          Ripple
+        </ion-segment-button>
+        <ion-segment-button value="122" >
+          NEM
+        </ion-segment-button>
+        <ion-segment-button value="53" >
+          ICO
+        </ion-segment-button>
+        <ion-segment-button value="51" >
+          Altcoin
+        </ion-segment-button>
+        <ion-segment-button value="1" >
+          Others
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content style="background-color:#f4f4f7;">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+        <ion-list class="card_shadow">
+          <ion-item *ngFor="let item of news" no-lines style="border-bottom:1px solid #ccc" (click)="openNewsDetails(item.link)">
+            <ion-card-title>
+              <h6 text-wrap>
+                  <ion-badge *ngFor="let category of item.categories" [ngClass]="'category-'+category" style="margin-right:4px">{{getCategoryText(category)}}</ion-badge>
+                  {{ item.title.rendered}}
+              </h6>
+          </ion-card-title>
+          <p>{{ item.date | date:'medium'}}</p> 
+          
+          <!--<ion-thumbnail item-end>
+              <img src="img/thumbnail-totoro.png">
+            </ion-thumbnail>-->
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+

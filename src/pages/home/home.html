@@ -1,17 +1,44 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>COIN OTAKU</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content style="background-color:#f4f4f7" no-padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+        <ion-card *ngFor="let news of breakingNews">
+            <ion-card-content>
+              <ion-card-title>
+                <p>{{ news.date | date:'medium'}}</p>
+              </ion-card-title>
+              <h6 text-wrap>
+                  {{ news.content.rendered | removehtmltags}}
+              </h6>
+            </ion-card-content>
+        
+            <ion-row style="padding:8px">
+              <ion-col>
+                  <ion-badge color="secondary">
+                      <ion-icon name='thumbs-up'></ion-icon>
+                      いい
+                  </ion-badge>
+                  <ion-badge color="danger">
+                      <ion-icon name='thumbs-down'></ion-icon>
+                      悪い
+                  </ion-badge>
+              </ion-col>
+              <ion-col text-right>
+                <button ion-button clear small color="default" icon-start no-margin>
+                  <ion-icon name='share-alt'></ion-icon>
+                  分享
+                </button>
+              </ion-col>
+            </ion-row>
+        
+          </ion-card>
+          <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+              <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading..."></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
 </ion-content>
