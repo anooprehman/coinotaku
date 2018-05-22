@@ -20,9 +20,9 @@ import { InAppBrowser,InAppBrowserOptions } from '@ionic-native/in-app-browser';
 export class NewsPage {
   @ViewChild(Content) content: Content;
 
-  news: any;
-  allNews: any;
-  data: any;
+  news: any = [];
+  allNews: any = [];
+  data: any = [];
   page = 1;
   categories: string = "0";
   options : InAppBrowserOptions = {
@@ -59,7 +59,13 @@ export class NewsPage {
       loading.dismiss();
       this.scrollToTop();
       console.log(this.news);
-    });
+    },
+    error=>{ 
+     console.log('Error occured : '+error);
+     if(error.status == 403)
+      alert('Forbidden');
+     loading.dismiss();
+   });
   }
 
   scrollToTop() {
@@ -106,9 +112,9 @@ export class NewsPage {
           this.news = this.data;
           this.allNews = this.news.slice();
           this.filterCategory();
-          this.scrollToTop();
           console.log('Async operation has ended');
           refresher.complete();
+          this.scrollToTop();
         },
         err => {
           console.log('Async operation has ended due to error');

@@ -12,8 +12,8 @@ import { ApiProvider } from './../../providers/api/api';
 export class HomePage {
   @ViewChild(Content) content: Content;
 
-  breakingNews: any;
-  data: any;
+  breakingNews: any = [];
+  data: any = [];
   page = 1;
 
   constructor(public navCtrl: NavController, public apiProvider: ApiProvider, public loadingCtrl: LoadingController) {
@@ -31,7 +31,11 @@ export class HomePage {
       loading.dismiss();
       this.scrollToTop();
       console.log(this.breakingNews);
-    });
+    },
+    error=>{ 
+     console.log('Error occured : '+error.error);
+     loading.dismiss();
+   });
   }
 
   scrollToTop() {
@@ -68,9 +72,9 @@ export class HomePage {
         this.apiProvider.getBreakingNews(this.page).subscribe(res => {
           this.data = res;
           this.breakingNews = this.data;
-          this.scrollToTop();
           console.log('Async operation has ended');
           refresher.complete();
+          this.scrollToTop();
         },
         err => {
           console.log('Async operation has ended due to error');
